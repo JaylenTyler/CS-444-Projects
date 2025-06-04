@@ -1,8 +1,8 @@
-# Very, Very Simple File System (VVSFS)
+# Very, Very Simple File System (VVSFS) Project 6 ver.
 
 ## Overview
-This project simulates a "Very, Very Simple File System operating at the block level using Unix system calls such as (`open()`, `read()`, `write()`, `lseek()`, etc.). 
-It is built to follow a structure similar to a real file system, but using a single image file to store all data.
+This project simulates a "Very, Very Simple File System" operating at the block level using Unix system calls (`open()`, `read()`, `write()`, `lseek()`, etc.).
+It follows a simplified structure similar to a real file system and uses a single image file to store all data.
 
 ## Block Layout
 The simulated file system reserves the first 7 blocks (4096 bytes each) as follows:
@@ -10,24 +10,19 @@ The simulated file system reserves the first 7 blocks (4096 bytes each) as follo
 - Block 0: Superblock
 - Block 1: Inode map
 - Block 2: Block map
-- Block 3-6: Inode blocks
+- Block 3–6: Inode blocks
 - Block 7+: File data blocks
 
 ## Components
 - `image.c/.h`: Manages opening and closing the image file that simulates the disk.
-- `block.c/.h`: Provides `bread()` and `bwrite()` for reading/writing 4KB blocks within the image file.
-- `testfs.c`: Manual tests that validate correct block read/write and image file operations using `ctest.h`.
+- `block.c/.h`: Provides `bread()` and `bwrite()` for reading/writing 4KB blocks within the image file. Now also includes `alloc()` for allocating data blocks.
+- `free.c/.h`: Provides `set_free()` and `find_free()` to manage allocation status of inodes and data blocks in bitmap form.
+- `inode.c/.h`: Provides `ialloc()` to allocate the next available inode.
+- `testfs.c`: Contains unit tests for image operations, block read/write, and new allocation functions using `ctest.h`.
 - `ctest.h`: Beej’s minimal C test framework header (used in simple mode).
 
 ## Building
 
-(optional) make clean
+```bash
+make clean
 make
-
-## Testing
-
-make test
-
-or
-
-./testfs
